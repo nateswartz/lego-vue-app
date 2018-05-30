@@ -1,8 +1,8 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Vue2Spa.Providers;
+using LegoVueApp.Providers;
 
-namespace Vue2Spa.Controllers
+namespace LegoVueApp.Controllers
 {
     [Route("api/[controller]")]
     public class LegoSetsController : Controller

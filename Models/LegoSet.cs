@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Vue2Spa.Models
+namespace LegoVueApp.Models
 {
     public class SetsResponse
     {

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Vue2Spa.Models;
+using LegoVueApp.Models;
 
-namespace Vue2Spa.Providers
+namespace LegoVueApp.Providers
 {
     public interface ILegoSetsProvider
     {

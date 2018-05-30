@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Vue2Spa.Controllers
+namespace LegoVueApp.Controllers
 {
     public class HomeController : Controller
     {

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Vue2Spa.Models;
+using LegoVueApp.Models;
 
-namespace Vue2Spa.Providers
+namespace LegoVueApp.Providers
 {
     public class WeatherProviderFake : IWeatherProvider
     {

@@ -1,4 +1,4 @@
-namespace Vue2Spa.Models
+namespace LegoVueApp.Models
 {
     public class WeatherForecast
     {

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore;
 
-namespace Vue2Spa
+namespace LegoVueApp
 {
     public class Program
     {
