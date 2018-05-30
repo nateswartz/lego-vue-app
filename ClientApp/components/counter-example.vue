@@ -11,8 +11,8 @@
             Auto count: <strong>{{ autoCount }}</strong>
         </p>
 
-        <button class="ui button primary" @click="incrementCounter()">Increment</button>
-        <button class="ui button secondary" @click="resetCounter()">Reset</button>
+        <div class="ui button primary" @click="incrementCounter()">Increment</div>
+        <div class="ui button secondary" @click="resetCounter()">Reset</div>
     </div>
 </template>
 

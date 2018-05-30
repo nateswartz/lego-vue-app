@@ -10,8 +10,8 @@
         </div>
 
         <template v-if="forecasts">
-            <table class="table">
-                <thead  class="bg-dark text-white">
+            <table class="ui table">
+                <thead class="bg-dark text-white">
                     <tr>
                         <th>Date</th>
                         <th>Temp. (C)</th>

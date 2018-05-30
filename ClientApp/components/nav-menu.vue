@@ -1,4 +1,4 @@
-﻿<template>
+<template>
     <div class="main-nav">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <button class="navbar-toggler" type="button" @click="toggleCollapsed">
@@ -14,7 +14,7 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item" v-for="(route, index) in routes" :key="index">
                             <router-link :to="route.path" exact-active-class="active">
-                                <icon :icon="route.icon" class="mr-2" /><span>{{ route.display }}</span> 
+                                <icon :icon="route.icon" class="route.icon" /><span>{{ route.display }}</span> 
                             </router-link>
                         </li>
                     </ul>

@@ -13,6 +13,7 @@ namespace LegoVueApp.Models
 
     public class LegoSet
     {
+        [JsonProperty(PropertyName = "set_num")]
         public string Number { get; set; }
         public string Name { get; set; }
         public int Year { get; set; }

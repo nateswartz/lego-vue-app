@@ -1,6 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using LegoVueApp.Providers;
+using System.Threading.Tasks;
 
 namespace LegoVueApp.Controllers
 {
@@ -15,9 +16,9 @@ namespace LegoVueApp.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult Sets()
+        public async Task<IActionResult> Sets()
         {
-            var result = legoSetsProvider.GetSets();
+            var result = await legoSetsProvider.GetSets();
 
             return Ok(result);
         }
