@@ -14,7 +14,7 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item" v-for="(route, index) in routes" :key="index">
                             <router-link :to="route.path" exact-active-class="active">
-                                <icon :icon="route.icon" class="route.icon" /><span>{{ route.display }}</span> 
+                                <i v-bind:class="route.icon" /><span>{{ route.display }}</span> 
                             </router-link>
                         </li>
                     </ul>
