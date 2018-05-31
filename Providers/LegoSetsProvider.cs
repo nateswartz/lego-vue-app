@@ -20,9 +20,9 @@ namespace LegoVueApp.Providers
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("key", _key);
         }
 
-        public async Task<List<LegoSet>> GetSets()
+        public async Task<List<LegoSet>> GetSets(int page, int pageSize)
         {
-            var response = await _client.GetAsync("sets");
+            var response = await _client.GetAsync($"sets?page={page}&page_size={pageSize}");
             var content = await response.Content.ReadAsStringAsync();
             var setsInfo = JsonConvert.DeserializeObject<SetsResponse>(content);
             return setsInfo.Results;

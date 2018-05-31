@@ -6,6 +6,6 @@ namespace LegoVueApp.Providers
 {
     public interface ILegoSetsProvider
     {
-        Task<List<LegoSet>> GetSets();
+        Task<List<LegoSet>> GetSets(int page, int pageSize);
     }
 }

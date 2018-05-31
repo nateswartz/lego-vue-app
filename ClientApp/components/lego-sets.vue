@@ -15,6 +15,7 @@
             <th>Name</th>
             <th>Number of Pieces</th>
             <th>Year</th>
+            <th>Image</th>
           </tr>
         </thead>
         <tbody>
@@ -23,16 +24,18 @@
             <td>{{ set.name }}</td>
             <td>{{ set.num_parts }}</td>
             <td>{{ set.year }}</td>
+            <td><img v-bind:src="set.set_img_url" width="200"/></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <th colspan="3">
               <div class="ui right floated pagination menu">
-                <a class="icon item">
+                <a class="icon item" @click="loadPage(currentPage - 1)">
                   <i class="left chevron icon"></i>
                 </a>
-                <a class="icon item">
+                <div class="item">{{ currentPage }}</div>
+                <a class="icon item" @click="loadPage(currentPage + 1)">
                   <i class="right chevron icon"></i>
                 </a>
               </div>
@@ -48,6 +51,8 @@
 export default {
   data () {
     return {
+      pageSize: 20,
+      currentPage: 1,
       sets: null
     }
   },
@@ -59,7 +64,9 @@ export default {
       this.currentPage = page
 
       try {
-        let response = await this.$http.get(`/api/legosets/sets`)
+        var from = (page - 1) * (this.pageSize)
+        var to = from + this.pageSize
+        let response = await this.$http.get(`/api/legosets/sets?page=${page}&pagesize=${this.pageSize}`)
         console.log(response.data)
         this.sets = response.data
       } catch (err) {
@@ -70,7 +77,7 @@ export default {
   },
 
   async created () {
-    this.loadPage()
+    this.loadPage(1)
   }
 }
 </script>

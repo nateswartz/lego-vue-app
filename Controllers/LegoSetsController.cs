@@ -16,9 +16,9 @@ namespace LegoVueApp.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> Sets()
+        public async Task<IActionResult> Sets(int page, int pageSize)
         {
-            var result = await legoSetsProvider.GetSets();
+            var result = await legoSetsProvider.GetSets(page, pageSize);
 
             return Ok(result);
         }
