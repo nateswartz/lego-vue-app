@@ -6,6 +6,11 @@
       <div class="ui text loader">Loading</div>
     </div>
 
+    <select class="ui dropdown" v-model="selectedTheme">
+      <option v-for="theme in themes" v-bind:value="theme">{{ theme }}</option>
+    </select>
+    <div class="ui button" @click="filterSets()">Filter</div>
+
     <template v-if="sets">
       <table class="ui celled striped table">
         <thead>
@@ -58,7 +63,9 @@ export default {
     return {
       pageSize: 20,
       currentPage: 1,
-      sets: []
+      sets: [],
+      selectedTheme: '',
+      themes: []
     }
   },
 
@@ -69,20 +76,34 @@ export default {
       this.sets = [];
 
       try {
-        var from = (page - 1) * (this.pageSize)
-        var to = from + this.pageSize
-        let response = await this.$http.get(`/api/legosets/sets?page=${page}&pagesize=${this.pageSize}`)
+        let url = `/api/legosets/sets?page=${page}&pagesize=${this.pageSize}`;
+        if (this.selectedTheme != '') {
+          url = url + `&theme=${this.selectedTheme}`;
+        }
+        let response = await this.$http.get(url)
         console.log(response.data)
         this.sets = response.data;
       } catch (err) {
         window.alert(err)
         console.log(err)
       }
+    },
+    async filterSets() {
+      this.loadPage(1)
+    },
+    async loadThemes() {
+      let response = await this.$http.get(`/api/legosets/themes`);
+      console.log(response);
+      for (let theme of response.data) {
+        console.log(theme);
+        this.themes.push(theme.name);
+      }
     }
   },
 
-  async created () {
-    this.loadPage(1)
+  async created() {
+    this.loadThemes();
+    this.loadPage(1);
   }
 }
 </script>

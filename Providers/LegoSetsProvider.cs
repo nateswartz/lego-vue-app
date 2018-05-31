@@ -21,13 +21,21 @@ namespace LegoVueApp.Providers
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("key", _key);
         }
 
-        public async Task<List<LegoSet>> GetSets(int page, int pageSize)
+        public async Task<List<LegoSet>> GetSets(int page, int pageSize, string theme)
         {
+            var requestUrl = $"sets?page={page}&page_size={pageSize}";
             if (_themes.Count == 0)
             {
                 _themes = await GetThemes();
             }
-            var response = await _client.GetAsync($"sets?page={page}&page_size={pageSize}");
+            if (!string.IsNullOrEmpty(theme))
+            {
+                var themeID = _themes.Where(t => t.Name == theme)
+                                     .Select(t => t.ID)
+                                     .First();
+                requestUrl += $"&theme_id={themeID}";
+            }
+            var response = await _client.GetAsync(requestUrl);
             var content = await response.Content.ReadAsStringAsync();
             var setsInfo = JsonConvert.DeserializeObject<SetsResponse>(content);
             foreach (var set in setsInfo.Results)
