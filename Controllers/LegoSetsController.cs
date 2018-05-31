@@ -22,5 +22,13 @@ namespace LegoVueApp.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("[action]/{themeID}")]
+        public async Task<IActionResult> Themes(int themeID)
+        {
+            var result = await legoSetsProvider.GetTheme(themeID);
+
+            return Ok(result);
+        }
     }
 }

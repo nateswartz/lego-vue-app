@@ -19,10 +19,14 @@ namespace LegoVueApp.Models
         public int Year { get; set; }
         [JsonProperty(PropertyName = "theme_id")]
         public int ThemeID { get; set; }
+        public string Theme { get; set; }
         [JsonProperty(PropertyName = "num_parts")]
         public int NumberOfParts { get; set;}
-        [JsonProperty(PropertyName ="set_img_url")]
+        [JsonProperty(PropertyName = "set_img_url")]
         public string ImageUrl { get; set; }
-        // TODO: add other properties
+        [JsonProperty(PropertyName = "set_url")]
+        public string SetUrl { get; set; }
+        [JsonProperty(PropertyName = "last_modified_dt")]
+        public string LastModifiedDate { get; set; }
     }
 }

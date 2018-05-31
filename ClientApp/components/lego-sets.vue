@@ -2,9 +2,8 @@
   <div>
     <h1>Lego Sets</h1>
 
-    <div v-if="!sets" class="text-center">
-      <p><em>Loading...</em></p>
-      <h1><i class="icon spinner" pulse /></h1>
+    <div class="ui inverted dimmer" v-bind:class="{ active: sets.length == 0 }">
+      <div class="ui text loader">Loading</div>
     </div>
 
     <template v-if="sets">
@@ -13,8 +12,9 @@
           <tr>
             <th>Number</th>
             <th>Name</th>
-            <th>Number of Pieces</th>
             <th>Year</th>
+            <th>Theme</th>
+            <th>Number of Pieces</th>
             <th>Image</th>
           </tr>
         </thead>
@@ -22,9 +22,14 @@
           <tr v-for="(set, index) in sets" :key="index">
             <td>{{ set.set_num }}</td>
             <td>{{ set.name }}</td>
-            <td>{{ set.num_parts }}</td>
             <td>{{ set.year }}</td>
-            <td><img v-bind:src="set.set_img_url" width="200"/></td>
+            <td>{{ set.theme }}</td>
+            <td>{{ set.num_parts }}</td>
+            <td>
+              <a v-bind:href="set.set_url">
+                <img class="ui image tiny" v-bind:src="set.set_img_url" />
+              </a>
+            </td>
           </tr>
         </tbody>
         <tfoot>
@@ -53,22 +58,22 @@ export default {
     return {
       pageSize: 20,
       currentPage: 1,
-      sets: null
+      sets: []
     }
   },
 
   methods: {
     async loadPage (page) {
       // ES2017 async/await syntax via babel-plugin-transform-async-to-generator
-      // TypeScript can also transpile async/await down to ES5
-      this.currentPage = page
+      this.currentPage = page;
+      this.sets = [];
 
       try {
         var from = (page - 1) * (this.pageSize)
         var to = from + this.pageSize
         let response = await this.$http.get(`/api/legosets/sets?page=${page}&pagesize=${this.pageSize}`)
         console.log(response.data)
-        this.sets = response.data
+        this.sets = response.data;
       } catch (err) {
         window.alert(err)
         console.log(err)
