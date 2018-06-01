@@ -16,7 +16,7 @@ namespace LegoVueApp.Controllers
         }
 
         [HttpGet("Sets")]
-        public async Task<IActionResult> Sets(int page, int pageSize, string theme)
+        public async Task<IActionResult> Sets(int page, int pageSize, int? theme)
         {
             var result = await legoSetsProvider.GetSets(page, pageSize, theme);
 

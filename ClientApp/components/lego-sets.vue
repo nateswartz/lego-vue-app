@@ -6,8 +6,8 @@
       <div class="ui text loader">Loading</div>
     </div>
 
-    <select class="ui dropdown" v-model="selectedTheme">
-      <option v-for="theme in themes" v-bind:value="theme">{{ theme }}</option>
+    <select class="ui dropdown" v-model="selectedThemeID">
+      <option v-for="theme in themes" v-bind:value="theme.id">{{ theme.name + " (" + theme.id + ")" }}</option>
     </select>
     <div class="ui button" @click="filterSets()">Filter</div>
 
@@ -64,7 +64,7 @@ export default {
       pageSize: 20,
       currentPage: 1,
       sets: [],
-      selectedTheme: '',
+      selectedThemeID: '',
       themes: []
     }
   },
@@ -77,8 +77,8 @@ export default {
 
       try {
         let url = `/api/legosets/sets?page=${page}&pagesize=${this.pageSize}`;
-        if (this.selectedTheme != '') {
-          url = url + `&theme=${this.selectedTheme}`;
+        if (this.selectedThemeID != '') {
+          url = url + `&theme=${this.selectedThemeID}`;
         }
         let response = await this.$http.get(url)
         console.log(response.data)
@@ -96,7 +96,7 @@ export default {
       console.log(response);
       for (let theme of response.data) {
         console.log(theme);
-        this.themes.push(theme.name);
+        this.themes.push(theme);
       }
     }
   },
