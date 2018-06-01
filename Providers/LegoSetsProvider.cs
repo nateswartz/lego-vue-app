@@ -47,6 +47,14 @@ namespace LegoVueApp.Providers
             return setsInfo.Results;
         }
 
+        public async Task<List<PartInSet>> GetPartsForSet(string setID)
+        {
+            var response = await _client.GetAsync($"sets/{setID}/parts");
+            var content = await response.Content.ReadAsStringAsync();
+            var partsResponse = JsonConvert.DeserializeObject<PartResponse>(content);
+            return partsResponse.Results;
+        }
+
         public async Task<Theme> GetTheme(int themeID)
         {
             var response = await _client.GetAsync($"themes/{themeID}");
