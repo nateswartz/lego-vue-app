@@ -29,7 +29,12 @@
             <td>{{ set.name }}</td>
             <td>{{ set.year }}</td>
             <td>{{ set.theme }}</td>
-            <td>{{ set.num_parts }}</td>
+            <td>
+              <!--TODO: Utilize the router for this instead of a hard-coded link-->
+              <a v-bind:href="'/set-parts/' + set.set_num">
+                <span>{{ set.num_parts }}</span>
+              </a>
+            </td>
             <td>
               <a v-bind:href="set.set_url">
                 <img class="ui image tiny" v-bind:src="set.set_img_url" />

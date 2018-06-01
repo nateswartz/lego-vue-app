@@ -7,12 +7,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <router-link class="navbar-brand" to="/"><icon :icon="['fab', 'microsoft']"/> ASP.NET Core with Vue.js 2</router-link>
+            <router-link class="navbar-brand" to="/">ASP.NET Core with Vue.js 2</router-link>
 
             <transition name="slide">
                 <div :class="'collapse navbar-collapse' + (!collapsed ? ' show':'')" v-show="!collapsed">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item" v-for="(route, index) in routes" :key="index">
+                        <li class="nav-item" v-for="(route, index) in routesForMenu" :key="index">
                             <router-link :to="route.path" exact-active-class="active">
                                 <i v-bind:class="route.icon" /><span>{{ route.display }}</span> 
                             </router-link>
@@ -25,12 +25,12 @@
 </template>
 
 <script>
-    import { routes } from '../router/routes'
+  import { routesForMenu } from '../router/routes'
 
     export default {
       data () {
         return {
-          routes,
+          routesForMenu,
           collapsed: true
         }
       },
