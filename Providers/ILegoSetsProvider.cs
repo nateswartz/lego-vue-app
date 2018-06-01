@@ -7,6 +7,7 @@ namespace LegoVueApp.Providers
     public interface ILegoSetsProvider
     {
         Task<List<LegoSet>> GetSets(int page, int pageSize, int? theme);
+        Task<LegoSet> GetSet(string setID);
         Task<List<PartInSet>> GetPartsForSet(string setID);
         Task<Theme> GetTheme(int themeID);
         Task<List<Theme>> GetThemes();

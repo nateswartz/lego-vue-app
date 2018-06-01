@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Lego Sets</h1>
+    <h1>Set Parts</h1>
 
     <div class="ui inverted dimmer" v-bind:class="{ active: searching }">
       <div class="ui text loader">Loading</div>
@@ -10,6 +10,8 @@
       <input v-model="setID" placeholder="Enter Set ID" type="text">
     </div>
     <div class="ui button" @click="getParts()">Get Parts</div>
+
+    <img class="ui image small" v-if="set" v-bind:src="set.set_img_url"/>
 
     <template v-if="parts">
       <table class="ui celled striped table">
@@ -50,29 +52,38 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      setID: null,
-      searching: false,
-      parts: []
-    }
-  },
-
-  methods: {
-    async getParts() {
-      this.searching = true;
-      let response = await this.$http.get(`/api/legosets/sets/${this.setID}/parts`);
-      console.log(response);
-      for (let part of response.data) {
-        console.log(part);
-        this.parts.push(part);
+  export default {
+    props: ['initialSetID'],
+    data () {
+      return {
+        setID: this.initialSetID,
+        searching: false,
+        parts: [],
+        set: null
       }
-      this.searching = false;
-    }
-  },
+    },
 
-}
+    methods: {
+      async getParts() {
+        this.searching = true;
+        let response = await this.$http.get(`/api/legosets/sets/${this.setID}/parts`);
+        console.log(response);
+        for (let part of response.data) {
+          console.log(part);
+          this.parts.push(part);
+        }
+        let setResponse = await this.$http.get(`/api/legosets/sets/${this.setID}`);
+        this.set = setResponse.data;
+        this.searching = false;
+      }
+    },
+    async created() {
+      console.log(this.setID);
+      if (this.setID) {
+        this.getParts();
+      }
+    }
+  }
 </script>
 
 <style>

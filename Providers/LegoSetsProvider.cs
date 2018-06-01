@@ -44,6 +44,14 @@ namespace LegoVueApp.Providers
             return setsInfo.Results;
         }
 
+        public async Task<LegoSet> GetSet(string setID)
+        {
+            var response = await _client.GetAsync($"sets/{setID}");
+            var content = await response.Content.ReadAsStringAsync();
+            var setResponse = JsonConvert.DeserializeObject<LegoSet>(content);
+            return setResponse;
+        }
+
         public async Task<List<PartInSet>> GetPartsForSet(string setID)
         {
             var response = await _client.GetAsync($"sets/{setID}/parts");

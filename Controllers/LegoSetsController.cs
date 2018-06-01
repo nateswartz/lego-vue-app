@@ -23,6 +23,14 @@ namespace LegoVueApp.Controllers
             return Ok(result);
         }
 
+        [HttpGet("Sets/{setID}")]
+        public async Task<IActionResult> SetByID(string setID)
+        {
+            var result = await legoSetsProvider.GetSet(setID);
+
+            return Ok(result);
+        }
+
         [HttpGet("Sets/{setID}/Parts")]
         public async Task<IActionResult> PartsForSet(string setID)
         {
