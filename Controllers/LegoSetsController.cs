@@ -9,10 +9,12 @@ namespace LegoVueApp.Controllers
     public class LegoSetsController : Controller
     {
         private readonly ILegoSetsProvider legoSetsProvider;
+        private readonly IBricksetProvider bricksetProvider;
 
-        public LegoSetsController(ILegoSetsProvider legoSetsProvider)
+        public LegoSetsController(ILegoSetsProvider legoSetsProvider, IBricksetProvider bricksetProvider)
         {
             this.legoSetsProvider = legoSetsProvider;
+            this.bricksetProvider = bricksetProvider;
         }
 
         [HttpGet("Sets")]
