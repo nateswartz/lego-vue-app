@@ -103,6 +103,7 @@ export default {
         console.log(theme);
         this.themes.push(theme);
       }
+      this.themes.sort(function (a, b) { return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0); }); 
     }
   },
 
