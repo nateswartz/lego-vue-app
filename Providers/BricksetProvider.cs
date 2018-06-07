@@ -1,19 +1,20 @@
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace LegoVueApp.Providers
 {
     public class BricksetProvider : IBricksetProvider
     {
-        private string _key = "";
+        private string _key;
         private HttpClient _client;
-        public BricksetProvider()
+
+        public BricksetProvider(IConfiguration configuration)
         {
             _client = new HttpClient();
-            _client.BaseAddress = new Uri("https://brickset.com/api/v2.asmx/");
+            _client.BaseAddress = new Uri(configuration["ExternalServices:Brickset:Url"]);
+            _key = configuration["ExternalServices:Brickset:Key"];
         }
 
         public void CheckKey()

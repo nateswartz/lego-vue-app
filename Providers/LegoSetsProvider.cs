@@ -6,19 +6,20 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using LegoVueApp.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace LegoVueApp.Providers
 {
     public class LegoSetsProvider : ILegoSetsProvider
     {
-        private string _key = "";
         private List<Theme> _themes = new List<Theme>();
         private HttpClient _client;
-        public LegoSetsProvider()
+
+        public LegoSetsProvider(IConfiguration configuration)
         {
             _client = new HttpClient();
-            _client.BaseAddress = new Uri("https://rebrickable.com/api/v3/lego/");
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("key", _key);
+            _client.BaseAddress = new Uri(configuration["ExternalServices:Rebrickable:Url"]);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("key", configuration["ExternalServices:Rebrickable:Key"]);
         }
 
         public async Task<List<LegoSet>> GetSets(int page, int pageSize, int? theme)
