@@ -28,7 +28,7 @@ namespace LegoVueApp
             services.AddMvc();
 
             // Simple example with dependency injection for a data provider.
-            services.AddSingleton<Providers.ILegoSetsProvider, Providers.LegoSetsProvider>();
+            services.AddSingleton<Providers.IRebrickableProvider, Providers.RebrickableProvider>();
             services.AddSingleton<Providers.IBricksetProvider, Providers.BricksetProvider>();
         }
 

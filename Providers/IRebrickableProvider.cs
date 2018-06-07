@@ -4,7 +4,7 @@ using LegoVueApp.Models;
 
 namespace LegoVueApp.Providers
 {
-    public interface ILegoSetsProvider
+    public interface IRebrickableProvider
     {
         Task<List<LegoSet>> GetSets(int page, int pageSize, int? theme);
         Task<LegoSet> GetSet(string setID);

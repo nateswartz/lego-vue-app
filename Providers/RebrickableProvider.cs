@@ -10,12 +10,12 @@ using Microsoft.Extensions.Configuration;
 
 namespace LegoVueApp.Providers
 {
-    public class LegoSetsProvider : ILegoSetsProvider
+    public class RebrickableProvider : IRebrickableProvider
     {
         private List<Theme> _themes = new List<Theme>();
         private HttpClient _client;
 
-        public LegoSetsProvider(IConfiguration configuration)
+        public RebrickableProvider(IConfiguration configuration)
         {
             _client = new HttpClient();
             _client.BaseAddress = new Uri(configuration["ExternalServices:Rebrickable:Url"]);
