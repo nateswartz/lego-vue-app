@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -29,7 +28,6 @@ namespace LegoVueApp
             services.AddMvc();
 
             // Simple example with dependency injection for a data provider.
-            services.AddSingleton<Providers.IWeatherProvider, Providers.WeatherProviderFake>();
             services.AddSingleton<Providers.ILegoSetsProvider, Providers.LegoSetsProvider>();
             services.AddSingleton<Providers.IBricksetProvider, Providers.BricksetProvider>();
         }
