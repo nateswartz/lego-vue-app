@@ -1,7 +1,10 @@
-﻿namespace LegoVueApp.Providers
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace LegoVueApp.Providers
 {
     public interface IBricksetProvider
     {
-        void CheckKey();
+        Task<List<BricksetLegoSet>> GetSetsAsync();
     }
 }
