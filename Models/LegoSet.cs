@@ -8,10 +8,10 @@ namespace LegoVueApp.Models
         public int Count { get; set; }
         public string Next { get; set; }
         public string Previous { get; set; }
-        public List<LegoSet> Results { get; set; }
+        public List<RebrickableLegoSet> Results { get; set; }
     }
 
-    public class LegoSet
+    public class RebrickableLegoSet
     {
         [JsonProperty(PropertyName = "set_num")]
         public string Number { get; set; }

@@ -19,7 +19,7 @@ namespace LegoVueApp.Controllers
         [HttpGet("Sets")]
         public async Task<IActionResult> Sets(int page, int pageSize, int? theme)
         {
-            var result = await _rebrickableProvider.GetSets(page, pageSize, theme);
+            var result = await _rebrickableProvider.GetSetsAsync(page, pageSize, theme);
 
             return Ok(result);
         }
@@ -27,7 +27,7 @@ namespace LegoVueApp.Controllers
         [HttpGet("Sets/{setID}")]
         public async Task<IActionResult> SetByID(string setID)
         {
-            var result = await _rebrickableProvider.GetSet(setID);
+            var result = await _rebrickableProvider.GetSetAsync(setID);
 
             return Ok(result);
         }
@@ -35,7 +35,7 @@ namespace LegoVueApp.Controllers
         [HttpGet("Sets/{setID}/Parts")]
         public async Task<IActionResult> PartsForSet(string setID)
         {
-            var result = await _rebrickableProvider.GetPartsForSet(setID);
+            var result = await _rebrickableProvider.GetPartsForSetAsync(setID);
 
             return Ok(result);
         }
@@ -43,7 +43,7 @@ namespace LegoVueApp.Controllers
         [HttpGet("Themes/{themeID}")]
         public async Task<IActionResult> Themes(int themeID)
         {
-            var result = await _rebrickableProvider.GetTheme(themeID);
+            var result = await _rebrickableProvider.GetThemeAsync(themeID);
 
             return Ok(result);
         }
@@ -51,7 +51,7 @@ namespace LegoVueApp.Controllers
         [HttpGet("Themes")]
         public async Task<IActionResult> AllThemes()
         {
-            var result = await _rebrickableProvider.GetThemes();
+            var result = await _rebrickableProvider.GetThemesAsync();
 
             return Ok(result);
         }

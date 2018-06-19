@@ -6,10 +6,10 @@ namespace LegoVueApp.Providers
 {
     public interface IRebrickableProvider
     {
-        Task<List<LegoSet>> GetSets(int page, int pageSize, int? theme);
-        Task<LegoSet> GetSet(string setID);
-        Task<List<PartInSet>> GetPartsForSet(string setID);
-        Task<Theme> GetTheme(int themeID);
-        Task<List<Theme>> GetThemes();
+        Task<List<RebrickableLegoSet>> GetSetsAsync(int page, int pageSize, int? theme);
+        Task<RebrickableLegoSet> GetSetAsync(string setID);
+        Task<List<PartInSet>> GetPartsForSetAsync(string setID);
+        Task<Theme> GetThemeAsync(int themeID);
+        Task<List<Theme>> GetThemesAsync();
     }
 }

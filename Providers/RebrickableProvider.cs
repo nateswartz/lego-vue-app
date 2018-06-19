@@ -22,12 +22,12 @@ namespace LegoVueApp.Providers
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("key", configuration["ExternalServices:Rebrickable:Key"]);
         }
 
-        public async Task<List<LegoSet>> GetSets(int page, int pageSize, int? theme)
+        public async Task<List<RebrickableLegoSet>> GetSetsAsync(int page, int pageSize, int? theme)
         {
             var requestUrl = $"sets?page={page}&page_size={pageSize}";
             if (_themes.Count == 0)
             {
-                _themes = await GetThemes();
+                _themes = await GetThemesAsync();
             }
             if (theme != null)
             {
@@ -45,15 +45,15 @@ namespace LegoVueApp.Providers
             return setsInfo.Results;
         }
 
-        public async Task<LegoSet> GetSet(string setID)
+        public async Task<RebrickableLegoSet> GetSetAsync(string setID)
         {
             var response = await _client.GetAsync($"sets/{setID}");
             var content = await response.Content.ReadAsStringAsync();
-            var setResponse = JsonConvert.DeserializeObject<LegoSet>(content);
+            var setResponse = JsonConvert.DeserializeObject<RebrickableLegoSet>(content);
             return setResponse;
         }
 
-        public async Task<List<PartInSet>> GetPartsForSet(string setID)
+        public async Task<List<PartInSet>> GetPartsForSetAsync(string setID)
         {
             var response = await _client.GetAsync($"sets/{setID}/parts");
             var content = await response.Content.ReadAsStringAsync();
@@ -61,7 +61,7 @@ namespace LegoVueApp.Providers
             return partsResponse.Results;
         }
 
-        public async Task<Theme> GetTheme(int themeID)
+        public async Task<Theme> GetThemeAsync(int themeID)
         {
             var response = await _client.GetAsync($"themes/{themeID}");
             var content = await response.Content.ReadAsStringAsync();
@@ -69,7 +69,7 @@ namespace LegoVueApp.Providers
             return theme;
         }
 
-        public async Task<List<Theme>> GetThemes()
+        public async Task<List<Theme>> GetThemesAsync()
         {
             var response = await _client.GetAsync($"themes/?page_size=1000");
             var content = await response.Content.ReadAsStringAsync();
