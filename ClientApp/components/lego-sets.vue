@@ -7,7 +7,7 @@
     </div>
 
     <select class="ui dropdown" v-model="selectedThemeID">
-      <option v-for="theme in themes" v-bind:value="theme.id">{{ theme.name + " (" + theme.id + ")" }}</option>
+      <option v-for="theme in themes" v-bind:value="theme.name">{{ theme.name }}</option>
     </select>
     <div class="ui button" @click="filterSets()">Filter</div>
 
@@ -25,19 +25,19 @@
         </thead>
         <tbody>
           <tr v-for="(set, index) in sets" :key="index">
-            <td>{{ set.set_num }}</td>
+            <td>{{ set.number }}</td>
             <td>{{ set.name }}</td>
             <td>{{ set.year }}</td>
-            <td>{{ set.theme }}</td>
+            <td>{{ set.themeName }}</td>
             <td>
               <!--TODO: Utilize the router for this instead of a hard-coded link-->
-              <a v-bind:href="'/set-parts/' + set.set_num">
-                <span>{{ set.num_parts }}</span>
+              <a v-bind:href="'/set-parts/' + set.number">
+                <span>{{ set.pieces }}</span>
               </a>
             </td>
             <td>
               <a v-bind:href="set.set_url">
-                <img class="ui image tiny" v-bind:src="set.set_img_url" />
+                <img class="ui image tiny" v-bind:src="set.imageUrl" />
               </a>
             </td>
           </tr>

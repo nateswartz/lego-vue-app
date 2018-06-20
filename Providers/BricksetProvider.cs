@@ -1,8 +1,10 @@
+using LegoVueApp.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml;
@@ -22,31 +24,66 @@ namespace LegoVueApp.Providers
             _key = configuration["ExternalServices:Brickset:Key"];
         }
 
-        public async Task<List<BricksetLegoSet>> GetSetsAsync()
+        public async Task<LegoSet> GetSetAsync(string setNumber)
         {
-            var nvc = new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("apiKey", _key),
-                new KeyValuePair<string, string>("userHash", ""),
-                new KeyValuePair<string, string>("query", ""),
-                new KeyValuePair<string, string>("theme", ""),
-                new KeyValuePair<string, string>("subtheme", ""),
-                new KeyValuePair<string, string>("setNumber", ""),
-                new KeyValuePair<string, string>("year", "2017"),
-                new KeyValuePair<string, string>("owned", ""),
-                new KeyValuePair<string, string>("wanted", ""),
-                new KeyValuePair<string, string>("orderBy", ""),
-                new KeyValuePair<string, string>("pageSize", ""),
-                new KeyValuePair<string, string>("pageNumber", ""),
-                new KeyValuePair<string, string>("userName", "")
-            };
+            var nvc = GetRequestBody(setNumber: setNumber);
             var req = new HttpRequestMessage(HttpMethod.Post, "getSets") { Content = new FormUrlEncodedContent(nvc) };
             var res = await _client.SendAsync(req);
             var content = await res.Content.ReadAsStringAsync();
             var serializer = new XmlSerializer(typeof(ArrayOfSets));
             var strReader = new StringReader(content);
             var result = (ArrayOfSets)serializer.Deserialize(strReader);
-            return result.Sets;
+            return result.Sets.First().ToLegoSet();
+        }
+
+        public async Task<List<LegoSet>> GetSetsAsync(int page, int pageSize, string theme = "")
+        {
+            var nvc = GetRequestBody(query: "*", theme: theme, pageSize: pageSize.ToString(), page: page.ToString());
+            var req = new HttpRequestMessage(HttpMethod.Post, "getSets") { Content = new FormUrlEncodedContent(nvc) };
+            var res = await _client.SendAsync(req);
+            var content = await res.Content.ReadAsStringAsync();
+            var serializer = new XmlSerializer(typeof(ArrayOfSets));
+            var strReader = new StringReader(content);
+            var result = (ArrayOfSets)serializer.Deserialize(strReader);
+            return result.Sets.Select(s => s.ToLegoSet()).ToList();
+        }
+
+        public async Task<List<BricksetTheme>> GetThemesAsync()
+        {
+            var nvc = GetRequestBody();
+            var req = new HttpRequestMessage(HttpMethod.Post, "getThemes") { Content = new FormUrlEncodedContent(nvc) };
+            var res = await _client.SendAsync(req);
+            var content = await res.Content.ReadAsStringAsync();
+            var serializer = new XmlSerializer(typeof(ArrayOfThemes));
+            var strReader = new StringReader(content);
+            var result = (ArrayOfThemes)serializer.Deserialize(strReader);
+            return result.Themes;
+        }
+
+        //public async Task<BricksetLegoTheme> GetThemeAsync(string themeName)
+        //{
+
+        //}
+
+        private List<KeyValuePair<string, string>> GetRequestBody(string query = "", string theme = "",
+            string setNumber = "", string pageSize = "", string page = "")
+        {
+            return new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("apiKey", _key),
+                new KeyValuePair<string, string>("userHash", ""),
+                new KeyValuePair<string, string>("query", query),
+                new KeyValuePair<string, string>("theme", theme),
+                new KeyValuePair<string, string>("subtheme", ""),
+                new KeyValuePair<string, string>("setNumber", setNumber),
+                new KeyValuePair<string, string>("year", ""),
+                new KeyValuePair<string, string>("owned", ""),
+                new KeyValuePair<string, string>("wanted", ""),
+                new KeyValuePair<string, string>("orderBy", ""),
+                new KeyValuePair<string, string>("pageSize", pageSize),
+                new KeyValuePair<string, string>("pageNumber", page),
+                new KeyValuePair<string, string>("userName", "")
+            };
         }
     }
 
@@ -57,24 +94,12 @@ namespace LegoVueApp.Providers
         public List<BricksetLegoSet> Sets { get; set; }
     }
 
-    public class BricksetLegoSet
+
+    [XmlRoot("ArrayOfThemes", Namespace = "https://brickset.com/api/")]
+    public class ArrayOfThemes
     {
-        [XmlElement("setID")]
-        public int SetID { get; set; }
-        [XmlElement("number")]
-        public int Number { get; set; }
-        [XmlElement("numberVariant")]
-        public int NumberVariant { get; set; }
-        [XmlElement("name")]
-        public string Name { get; set; }
-        [XmlElement("pieces")]
-        public int Pieces { get; set; }
-        [XmlElement("minifigs")]
-        [DefaultValue(0)]
-        public int Minifigs { get; set; }
-        [XmlElement("year")]
-        public int Year { get; set; }
-
-
+        [XmlElement("themes")]
+        public List<BricksetTheme> Themes { get; set; }
     }
+
 }

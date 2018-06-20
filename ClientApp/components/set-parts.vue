@@ -11,7 +11,7 @@
     </div>
     <div class="ui button" @click="getParts()">Get Parts</div>
 
-    <img class="ui image small" v-if="set" v-bind:src="set.set_img_url"/>
+    <img class="ui image small" v-if="set" v-bind:src="set.imageUrl"/>
 
     <template v-if="parts">
       <table class="ui celled striped table">

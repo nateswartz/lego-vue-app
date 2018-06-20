@@ -12,7 +12,7 @@ namespace LegoVueApp.Providers
 {
     public class RebrickableProvider : IRebrickableProvider
     {
-        private List<Theme> _themes = new List<Theme>();
+        private List<RebrickableTheme> _themes = new List<RebrickableTheme>();
         private HttpClient _client;
 
         public RebrickableProvider(IConfiguration configuration)
@@ -22,7 +22,7 @@ namespace LegoVueApp.Providers
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("key", configuration["ExternalServices:Rebrickable:Key"]);
         }
 
-        public async Task<List<RebrickableLegoSet>> GetSetsAsync(int page, int pageSize, int? theme)
+        public async Task<List<LegoSet>> GetSetsAsync(int page, int pageSize, int? theme)
         {
             var requestUrl = $"sets?page={page}&page_size={pageSize}";
             if (_themes.Count == 0)
@@ -42,15 +42,15 @@ namespace LegoVueApp.Providers
                                    .Select(t => t.Name)
                                    .First();
             }
-            return setsInfo.Results;
+            return setsInfo.Results.Select(s => s.ToLegoSet()).ToList();
         }
 
-        public async Task<RebrickableLegoSet> GetSetAsync(string setID)
+        public async Task<LegoSet> GetSetAsync(string setID)
         {
             var response = await _client.GetAsync($"sets/{setID}");
             var content = await response.Content.ReadAsStringAsync();
             var setResponse = JsonConvert.DeserializeObject<RebrickableLegoSet>(content);
-            return setResponse;
+            return setResponse.ToLegoSet();
         }
 
         public async Task<List<PartInSet>> GetPartsForSetAsync(string setID)
@@ -61,15 +61,15 @@ namespace LegoVueApp.Providers
             return partsResponse.Results;
         }
 
-        public async Task<Theme> GetThemeAsync(int themeID)
+        public async Task<RebrickableTheme> GetThemeAsync(int themeID)
         {
             var response = await _client.GetAsync($"themes/{themeID}");
             var content = await response.Content.ReadAsStringAsync();
-            var theme = JsonConvert.DeserializeObject<Theme>(content);
+            var theme = JsonConvert.DeserializeObject<RebrickableTheme>(content);
             return theme;
         }
 
-        public async Task<List<Theme>> GetThemesAsync()
+        public async Task<List<RebrickableTheme>> GetThemesAsync()
         {
             var response = await _client.GetAsync($"themes/?page_size=1000");
             var content = await response.Content.ReadAsStringAsync();
