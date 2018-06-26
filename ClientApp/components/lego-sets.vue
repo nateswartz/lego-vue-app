@@ -46,11 +46,11 @@
           <tr>
             <th colspan="3">
               <div class="ui right floated pagination menu">
-                <a class="icon item" @click="loadPage(currentPage - 1)">
+                <a v-bind:class="{ disabled: currentPage == 1}" class="icon item" @click="loadPage(currentPage - 1)">
                   <i class="left chevron icon"></i>
                 </a>
                 <div class="item">{{ currentPage }}</div>
-                <a class="icon item" @click="loadPage(currentPage + 1)">
+                <a v-bind:class="{ disabled: sets.length < pageSize}" class="icon item" @click="loadPage(currentPage + 1)">
                   <i class="right chevron icon"></i>
                 </a>
               </div>
@@ -75,7 +75,12 @@ export default {
   },
 
   methods: {
-    async loadPage (page) {
+    async loadPage(page) {
+        console.log(this.sets.length);
+      if (page == 0 || (this.sets.length > 0 && this.sets.length < this.pageSize && this.currentPage < page)) {
+        console.log("Not doing anything")
+        return;
+      }
       // ES2017 async/await syntax via babel-plugin-transform-async-to-generator
       this.currentPage = page;
       this.sets = [];
